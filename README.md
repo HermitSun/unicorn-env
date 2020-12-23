@@ -29,7 +29,7 @@ Main **logical** steps:
     3. `make shellshock_apt_benign`
     4. `make shellshock_apt_attack`
 
-    You can see the Makefile in this repo's `analyzer/Makefile`.
+    You can see the Makefile in this repo's [analyzer/Makefile](https://github.com/HermitSun/unicorn-env/blob/master/analyzer/Makefile).
 5. `cd modeler/`, then:
     1. `python modeler.py -t ../../data/train_wget_normal_batch -u ../../data/test_wget_attack_batch -m max -n 1.3`
     2. `python modeler.py -t ../../data/train_shellshock_normal_batch -u ../../data/test_shellshock_attack_batch -m mean -n 3.9000000000000004`
