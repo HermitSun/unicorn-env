@@ -6,34 +6,33 @@ A repo for reproduction of UNICORN.
 
 ### OS
 Ubuntu Server 16.04.1 LTS 64bits
-- 4 cores, 16 GB RAM
+- 8 cores, 32 GB RAM
 
 ### Dependencies
-- g++ 4.9
-- Python 2.7.12
-- pip2 18.1
-    - tqdm==4.51.0
-    - numpy==1.16.1
-    - scipy==0.18.1
-    - scikit-learn==0.19.2
-- git-lfs
 
-You can use `. install.sh` (or other methods that can execute the shell script) to prepare these dependencies.
+As the [wiki](https://github.com/crimson-unicorn/core/wiki/Preparation) says. 
 
-## Codes
+## Codes(update)
 
-- *core*, the `master`branch
-    - *parsers*, the `master`branch
-    - *analyzer*, the `incremental`branch
-    - *modeler*, the `master`branch
+- *parsers*, the `master`branch
+- *analyzer*, the `master`branch
+- *modeler*, the `master`branch
 
-Main **logical** steps after `git clone` and `cd core/`:
+Main **logical** steps:
 
-1. `make prepare_parsers`
-2. `make prepare_graphchi_hotfix`
-3. `make prepare_modeling`
-4. `make prepare_output`
-5. `make download_wget`
-6. `make download_camflow_shellshock`
-7. `make run_wget`, after changing `--train_dir` to `--train-dir` and `--test_dir` to `--test-dir`
-8. `make run_camflow_shellshock`, after changing `--train_dir` to `--train-dir` and `--test_dir` to `--test-dir`
+1. `git clone https://github.com/margoseltzer/wget-apt.git`, and uncompress
+2. `git clone https://github.com/margoseltzer/shellshock-apt-new-label`, and uncompress
+3. use [the camflow parser](https://github.com/crimson-unicorn/parsers/tree/master/camflow) to parse the data
+4. `cd analyzer/`, after `make sb`:
+    1. `make wget_apt_benign`
+    2. `make wget_apt_attack`
+    3. `make shellshock_apt_benign`
+    4. `make shellshock_apt_attack`
+
+    You can see the Makefile in this repo's `analyzer/Makefile`.
+5. `cd modeler/`, then:
+    1. `python modeler.py -t ../../data/train_wget_normal_batch -u ../../data/test_wget_attack_batch -m max -n 1.3`
+    2. `python modeler.py -t ../../data/train_shellshock_normal_batch -u ../../data/test_shellshock_attack_batch -m mean -n 3.9000000000000004`
+    
+    Because the float precision, I could only use this weird number 3.9000000000000004.
+6. get the results.
